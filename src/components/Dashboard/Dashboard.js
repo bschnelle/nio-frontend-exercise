@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import * as nio from 'niojs';
 import SalesPanel from '../SalesPanel/SalesPanel';
+import classes from './Dashboard.scss';
 
 class Dashboard extends Component {
 
@@ -31,7 +32,7 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <div>
+      <div className={classes.dashboard}>
         <h1>Grocery Sales</h1>
         <SalesPanel sales={this.state.recentSales} />
       </div>

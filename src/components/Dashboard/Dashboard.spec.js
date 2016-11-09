@@ -5,6 +5,7 @@ import * as nio from 'niojs';
 import sinon from 'sinon';
 import Dashboard from './Dashboard';
 import SalesPanel from '../SalesPanel/SalesPanel';
+import classes from './Dashboard.scss';
 
 describe('Dashboard', () => {
   let stream;
@@ -18,6 +19,10 @@ describe('Dashboard', () => {
 
   afterEach(() => {
     nio.pass.restore();
+  });
+
+  it('renders a wrapper div with a .dashboard class', () => {
+    expect(wrapper.find(`div.${classes.dashboard}`)).to.have.length(1);
   });
 
   it('renders an h1 with "Grocery Sales"', () => {
