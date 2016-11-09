@@ -2,6 +2,7 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  color: rgba(0, 0, 0, .85);
   font-family: Lato;
   height: 100%;
   padding: 2rem;
@@ -11,7 +12,32 @@
     flex: 1;
 
     .main {
+      box-sizing: border-box;
       flex: 0 0 66.666%;
+      margin-top: 1rem;
+      padding-left: 2rem;
+
+      .total {
+        display: flex;
+
+        > div {
+          &:first-of-type {
+            align-items: center;
+            display: flex;
+            flex: 1;
+            justify-content: flex-end;
+            margin: 0 2rem 0 0;
+
+            h1 {
+              margin: 0;
+            }
+          }
+        }
+
+        span {
+          font-size: 5rem;
+        }
+      }
     }
 
     .salesPanel {

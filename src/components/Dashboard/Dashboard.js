@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import CountUp from 'react-countup';
 import * as nio from 'niojs';
 import SalesPanel from '../SalesPanel/SalesPanel';
 import classes from './Dashboard.scss';
@@ -14,6 +15,7 @@ class Dashboard extends Component {
     this.state = {
       count: 0,
       currentSale: null,
+      oldTotalSales: 0,
       recentSales: [],
       totalSales: 0
     };
@@ -26,7 +28,13 @@ class Dashboard extends Component {
       const currentSale = Object.assign({}, sale);
       currentSale.id = count;
       const recentSales = this.calculateRecentSales(currentSale);
-      this.setState({ count: count + 1, currentSale, recentSales });
+      this.setState({
+        count: count + 1,
+        currentSale,
+        oldTotalSales: this.state.totalSales,
+        recentSales,
+        totalSales: this.state.totalSales + currentSale.amount
+      });
     }));
   }
 
@@ -39,12 +47,26 @@ class Dashboard extends Component {
   }
 
   render() {
+    const { oldTotalSales, totalSales } = this.state;
+
     return (
       <div className={classes.dashboard}>
         <h1>Grocery Sales</h1>
         <div className={classes.content}>
           <SalesPanel className={classes.salesPanel} sales={this.state.recentSales} />
-          <div className={classes.main}>Stuff</div>
+          <div className={classes.main}>
+            <div className={classes.total}>
+              <div>
+                <h1>Total<br />Sales</h1>
+              </div>
+              <div>
+                <span className={classes.total}>
+                  $ <CountUp start={oldTotalSales} end={totalSales} duration={1} separator="," />
+                </span>
+              </div>
+            </div>
+            <div>Chart</div>
+          </div>
         </div>
       </div>
     );
