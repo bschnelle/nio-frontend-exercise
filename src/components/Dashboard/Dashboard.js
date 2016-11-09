@@ -17,17 +17,25 @@ class Dashboard extends Component {
       recentSales: [],
       totalSales: 0
     };
+    this.calculateRecentSales = this.calculateRecentSales.bind(this);
   }
 
   componentDidMount() {
     this.props.stream.pipe(nio.pass(sale => {
-      const { count, recentSales: oldRecentSales } = this.state;
+      const { count } = this.state;
       const currentSale = Object.assign({}, sale);
-      const recentSales = oldRecentSales.slice();
       currentSale.id = count;
-      recentSales[0] = currentSale;
+      const recentSales = this.calculateRecentSales(currentSale);
       this.setState({ count: count + 1, currentSale, recentSales });
     }));
+  }
+
+  calculateRecentSales(currentSale) {
+    const { recentSales } = this.state;
+    const newRecentSales = recentSales.slice();
+    if (newRecentSales.length > 10) newRecentSales.pop();
+    newRecentSales.unshift(currentSale);
+    return newRecentSales;
   }
 
   render() {

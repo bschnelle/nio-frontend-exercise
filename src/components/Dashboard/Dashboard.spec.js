@@ -32,4 +32,8 @@ describe('Dashboard', () => {
   it('renders a SalesPanel', () => {
     expect(wrapper.find(SalesPanel)).to.have.length(1);
   });
+
+  it('renders a div with a .main class', () => {
+    expect(wrapper.find(`div.${classes.main}`)).to.have.length(1);
+  });
 });
