@@ -1,1 +1,1 @@
-React ecosystem starter kit
+n.io front end exercise
