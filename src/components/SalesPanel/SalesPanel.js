@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import SaleCard from '../SaleCard/SaleCard';
 
 const SalesPanel = (props) => (
-  <div>
+  <div className={props.className}>
     {props.sales.map((sale) =>
       <SaleCard key={sale.id} sale={sale} />
     )}
@@ -10,6 +10,7 @@ const SalesPanel = (props) => (
 );
 
 SalesPanel.propTypes = {
+  className: PropTypes.string,
   sales: PropTypes.array.isRequired
 };
 

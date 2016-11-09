@@ -34,7 +34,10 @@ class Dashboard extends Component {
     return (
       <div className={classes.dashboard}>
         <h1>Grocery Sales</h1>
-        <SalesPanel sales={this.state.recentSales} />
+        <div className={classes.content}>
+          <SalesPanel className={classes.salesPanel} sales={this.state.recentSales} />
+          <div className={classes.main}>Stuff</div>
+        </div>
       </div>
     );
   }
