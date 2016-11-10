@@ -65,8 +65,10 @@ class Dashboard extends Component {
     const { oldTotalSales, totalSales } = this.state;
     const chartConfig = {
       chart: { type: 'column' },
+      series: [{ color: '#536dfe', data: [], name: 'Type' }],
+      title: { text: 'Quantity Sold by Type' },
       xAxis: { categories: [] },
-      series: [{ data: [], name: 'Quantity Sold by Type' }]
+      yAxis: { title: { text: 'Quantity' } }
     };
     Object.keys(this.state.chartData).forEach((key) => {
       const capitalizedKey = key[0].toUpperCase() + key.slice(1);
