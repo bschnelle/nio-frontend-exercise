@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import CountUp from 'react-countup';
 import * as nio from 'niojs';
+import LiveBarChart from '../LiveBarChart/LiveBarChart';
 import SalesPanel from '../SalesPanel/SalesPanel';
 import classes from './Dashboard.scss';
 
@@ -13,13 +14,16 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      chartData: {},
       count: 0,
       currentSale: null,
       oldTotalSales: 0,
       recentSales: [],
       totalSales: 0
     };
-    this.calculateRecentSales = this.calculateRecentSales.bind(this);
+    ['calculateChartData', 'calculateRecentSales'].forEach((fn) => {
+      this[fn] = this[fn].bind(this);
+    });
   }
 
   componentDidMount() {
@@ -27,8 +31,10 @@ class Dashboard extends Component {
       const { count } = this.state;
       const currentSale = Object.assign({}, sale);
       currentSale.id = count;
+      const chartData = this.calculateChartData(currentSale);
       const recentSales = this.calculateRecentSales(currentSale);
       this.setState({
+        chartData,
         count: count + 1,
         currentSale,
         oldTotalSales: this.state.totalSales,
@@ -36,6 +42,15 @@ class Dashboard extends Component {
         totalSales: this.state.totalSales + currentSale.amount
       });
     }));
+  }
+
+  calculateChartData(currentSale) {
+    const chartData = Object.assign({}, this.state.chartData);
+    currentSale.cart.forEach((item) => {
+      const { type, quantity } = item;
+      chartData[type] = chartData[type] + quantity || quantity;
+    });
+    return chartData;
   }
 
   calculateRecentSales(currentSale) {
@@ -48,6 +63,16 @@ class Dashboard extends Component {
 
   render() {
     const { oldTotalSales, totalSales } = this.state;
+    const chartConfig = {
+      chart: { type: 'column' },
+      xAxis: { categories: [] },
+      series: [{ data: [], name: 'Quantity Sold by Type' }]
+    };
+    Object.keys(this.state.chartData).forEach((key) => {
+      const capitalizedKey = key[0].toUpperCase() + key.slice(1);
+      chartConfig.xAxis.categories.push(capitalizedKey);
+      chartConfig.series[0].data.push(this.state.chartData[key]);
+    });
 
     return (
       <div className={classes.dashboard}>
@@ -65,7 +90,9 @@ class Dashboard extends Component {
                 </span>
               </div>
             </div>
-            <div>Chart</div>
+            <div className={classes.chart}>
+              <LiveBarChart config={chartConfig} />
+            </div>
           </div>
         </div>
       </div>

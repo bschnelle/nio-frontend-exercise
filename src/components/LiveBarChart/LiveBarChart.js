@@ -12,8 +12,8 @@ class LiveBarChart extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.chart.xAxis.setCategories(nextProps.config.xAxis.categories);
-    this.chart.series[0].setDate(nextProps.config.series[0].data);
+    this.chart.xAxis[0].setCategories(nextProps.config.xAxis.categories);
+    this.chart.series[0].setData(nextProps.config.series[0].data);
     // necessary????
     this.chart.reflow();
   }
