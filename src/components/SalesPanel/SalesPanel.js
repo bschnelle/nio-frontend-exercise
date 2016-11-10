@@ -1,6 +1,9 @@
 import React, { PropTypes } from 'react';
 import SaleCard from '../SaleCard/SaleCard';
 
+/**
+ * panel of SaleCards
+ */
 const SalesPanel = (props) => (
   <div className={props.className}>
     {props.sales.map((sale) =>

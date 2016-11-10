@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import SaleCard from '../SaleCard/SaleCard';
 import SalesPanel from './SalesPanel';
 
 describe('SalesPanel', () => {
@@ -16,7 +17,7 @@ describe('SalesPanel', () => {
     wrapper = shallow(<SalesPanel sales={sales} />);
   });
 
-  it('renders', () => {
-    expect(wrapper).to.be.truthy;
+  it('renders SaleCards', () => {
+    expect(wrapper.find(SaleCard)).to.have.length(1);
   });
 });

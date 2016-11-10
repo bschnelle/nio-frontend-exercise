@@ -1,6 +1,9 @@
 import React, { PropTypes } from 'react';
 import classes from './SaleCard.scss';
 
+/**
+ * card displaying individual sale
+ */
 const SaleCard = (props) => {
   const { amount, cart, shopper: { name } } = props.sale;
 

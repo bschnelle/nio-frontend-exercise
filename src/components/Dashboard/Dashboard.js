@@ -5,6 +5,9 @@ import LiveBarChart from '../LiveBarChart/LiveBarChart';
 import SalesPanel from '../SalesPanel/SalesPanel';
 import classes from './Dashboard.scss';
 
+/**
+ * main component
+ */
 class Dashboard extends Component {
 
   static propTypes = {
@@ -27,6 +30,12 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
+    /**
+     * update state on chunk:
+     *   calculate totals by type
+     *   calculate grand totals
+     *   track last 10 sales
+     */
     this.props.stream.pipe(nio.pass(sale => {
       const { count } = this.state;
       const currentSale = Object.assign({}, sale);
@@ -44,6 +53,12 @@ class Dashboard extends Component {
     }));
   }
 
+  /**
+   * calculateChartData - quantity sold by type
+   *
+   * @param  {Object} currentSale
+   * @return {Object}
+   */
   calculateChartData(currentSale) {
     const chartData = Object.assign({}, this.state.chartData);
     currentSale.cart.forEach((item) => {
@@ -53,6 +68,12 @@ class Dashboard extends Component {
     return chartData;
   }
 
+  /**
+   * calculateRecentSales - description
+   *
+   * @param  {Object} currentSale
+   * @return {Object}
+   */
   calculateRecentSales(currentSale) {
     const { recentSales } = this.state;
     const newRecentSales = recentSales.slice();
@@ -70,6 +91,7 @@ class Dashboard extends Component {
       xAxis: { categories: [] },
       yAxis: { title: { text: 'Quantity' } }
     };
+    /* convert totals to chart friendly format */
     Object.keys(this.state.chartData).forEach((key) => {
       const capitalizedKey = key[0].toUpperCase() + key.slice(1);
       chartConfig.xAxis.categories.push(capitalizedKey);

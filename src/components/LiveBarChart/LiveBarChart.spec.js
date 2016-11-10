@@ -3,22 +3,14 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import ReactHighcharts from 'react-highcharts';
 import LiveBarChart from './LiveBarChart';
-// import classes from './LiveBarChart.scss';
 
 describe('LiveBarChart', () => {
-  let data;
+  let config;
   let wrapper;
 
   beforeEach(() => {
-    data = {
-      id: '1',
-      cart: [
-        { name: 'apple', quantity: 10 },
-        { name: 'orange', quantity: 5 }
-      ],
-      shopper: { name: 'John Wick' }
-    };
-    wrapper = shallow(<LiveBarChart data={data} />);
+    config = {};
+    wrapper = shallow(<LiveBarChart config={config} />);
   });
 
   it('renders a ReactHighcharts component', () => {
